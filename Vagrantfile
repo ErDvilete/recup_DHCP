@@ -19,11 +19,11 @@ Vagrant.configure("2") do |config|
                     
     
     dhcp.vm.network "private_network",
-                    ip: "192.168.10.1",
+                    ip: "192.168.10.10",
                     virtualbox__intnet: "intnet1"
     
     dhcp.vm.network "private_network",
-                    ip: "192.168.20.1",
+                    ip: "192.168.20.10",
                     virtualbox__intnet: "intnet2"
     
     dhcp.vm.provision "install", type: "shell",
