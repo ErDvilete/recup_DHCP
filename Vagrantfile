@@ -7,8 +7,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "debian/bookworm64"
   
-  config.vm.provision "update", type: "shell",
-                      inline: "apt-get update"
   
   # DHCP server
   
@@ -32,7 +30,12 @@ Vagrant.configure("2") do |config|
                       inline: "apt-get install -y isc-dhcp-server"
 
     dhcp.vm.provision "config", type: "shell", inline: <<-SHELL
-                  
+        apt-get update 
+        apt-get upgrade -y
+        cp -v  /vagrant/dhcpd.conf /etc/dhcp/
+        cp -v /vagrant/isc-dhcp-server /etc/default/
+        systemctl restart isc-dhcp-server
+        
     SHELL
   end
   
