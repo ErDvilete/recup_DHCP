@@ -7,7 +7,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "debian/bookworm64"
   
-  
   # DHCP server
   
   config.vm.define "dhcp" do |dhcp|
@@ -27,7 +26,10 @@ Vagrant.configure("2") do |config|
                     virtualbox__intnet: "intnet2"
     
     dhcp.vm.provision "install", type: "shell",
-                      inline: "apt-get install -y isc-dhcp-server"
+                      inline: <<-SHELL
+                      apt-get update
+                      apt-get install isc-dhcp-server -y
+                      SHELL
 
     dhcp.vm.provision "config", type: "shell", inline: <<-SHELL
         apt-get update 
@@ -43,7 +45,7 @@ Vagrant.configure("2") do |config|
   
   config.vm.define "c1" do |c1|
     
-    c1.vm.hostname = "PC1"
+    c1.vm.hostname = "PC-9"
     
     c1.vm.network "private_network",
                   type: "dhcp",
@@ -54,29 +56,33 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "c2" do |c2|
     
-    c2.vm.hostname = "PC2"
+    c2.vm.hostname = "PC-10"
     
     c2.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet1"
+                  virtualbox__intnet: "intnet1",
+                  ip: "192.168.10.101",
+                  mac: "001AA0E8C239"
   end
 
   # Cliente 3
 
   config.vm.define "c3" do |c3|
     
-    c3.vm.hostname = "PC3"
+    c3.vm.hostname = "PC-11"
     
     c3.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet1"
+                  virtualbox__intnet: "intnet1",
+                  ip: "192.168.10.102",
+                  mac: "001AA0E6094A"
   end
 
   # -----Clientes DHCP intnet 2------
 
   config.vm.define "c4" do |c4|
     
-    c4.vm.hostname = "PC4"
+    c4.vm.hostname = "PC-12"
     
     c4.vm.network "private_network",
                   type: "dhcp",
@@ -87,22 +93,26 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "c5" do |c5|
     
-    c5.vm.hostname = "PC5"
+    c5.vm.hostname = "PC-13"
     
     c5.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet2"
+                  virtualbox__intnet: "intnet2",
+                  ip: "192.168.20.101",
+                  mac: "001AA0E5F5D2"
   end
 
   # Cliente 6
 
   config.vm.define "c6" do |c6|
     
-    c6.vm.hostname = "PC6"
+    c6.vm.hostname = "PC-14"
     
     c6.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet2"
+                  virtualbox__intnet: "intnet2",
+                  ip: "192.168.20.102",
+                  mac: "001AA0E906CF"
   end
 end
   
