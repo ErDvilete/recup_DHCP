@@ -49,7 +49,8 @@ Vagrant.configure("2") do |config|
     
     c1.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet1"              
+                  virtualbox__intnet: "intnet1" #Lo ponemos en la red interna1 ya que vamos a tener dos redes internas con diferentes IPs
+                                                #Segun la plantilla que nos brindo el profesor               
   end
 
   # Cliente 2
@@ -86,7 +87,7 @@ Vagrant.configure("2") do |config|
     
     c4.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet2"               
+                  virtualbox__intnet: "intnet2"   #Estos estarian en la segunda red interna            
   end
 
   # Cliente 5
@@ -99,7 +100,7 @@ Vagrant.configure("2") do |config|
                   type: "dhcp",
                   virtualbox__intnet: "intnet2",
                   ip: "192.168.20.101",
-                  mac: "001AA0E5F5D2"
+                  mac: "001AA0E5F5D2"  #Le asignamos MAC a aquellos que nos piden que tengan MAC para configurarlos en el dhcpd.conf
   end
 
   # Cliente 6
