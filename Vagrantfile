@@ -16,24 +16,22 @@ Vagrant.configure("2") do |config|
     dhcp.vm.network "private_network",
                     ip: "192.168.56.10"
                     
-    
     dhcp.vm.network "private_network",
-                    ip: "192.168.10.10",
+                    ip: "192.168.10.1",
                     virtualbox__intnet: "intnet1"
     
     dhcp.vm.network "private_network",
-                    ip: "192.168.20.10",
+                    ip: "192.168.20.1",
                     virtualbox__intnet: "intnet2"
     
     dhcp.vm.provision "install", type: "shell",
                       inline: <<-SHELL
                       apt-get update
+                      apt-get upgrade -y
                       apt-get install isc-dhcp-server -y
                       SHELL
 
     dhcp.vm.provision "config", type: "shell", inline: <<-SHELL
-        apt-get update 
-        apt-get upgrade -y
         cp -v  /vagrant/dhcpd.conf /etc/dhcp/
         cp -v /vagrant/isc-dhcp-server /etc/default/
         systemctl restart isc-dhcp-server
@@ -49,8 +47,7 @@ Vagrant.configure("2") do |config|
     
     c1.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet1" #Lo ponemos en la red interna1 ya que vamos a tener dos redes internas con diferentes IPs
-                                                #Segun la plantilla que nos brindo el profesor               
+                  virtualbox__intnet: "intnet1"
   end
 
   # Cliente 2
@@ -87,7 +84,7 @@ Vagrant.configure("2") do |config|
     
     c4.vm.network "private_network",
                   type: "dhcp",
-                  virtualbox__intnet: "intnet2"   #Estos estarian en la segunda red interna            
+                  virtualbox__intnet: "intnet2"
   end
 
   # Cliente 5
@@ -100,7 +97,7 @@ Vagrant.configure("2") do |config|
                   type: "dhcp",
                   virtualbox__intnet: "intnet2",
                   ip: "192.168.20.101",
-                  mac: "001AA0E5F5D2"  #Le asignamos MAC a aquellos que nos piden que tengan MAC para configurarlos en el dhcpd.conf
+                  mac: "001AA0E5F5D2"
   end
 
   # Cliente 6
@@ -116,4 +113,3 @@ Vagrant.configure("2") do |config|
                   mac: "001AA0E906CF"
   end
 end
-  
