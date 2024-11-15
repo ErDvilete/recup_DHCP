@@ -18,11 +18,11 @@ Vagrant.configure("2") do |config|
                     
     dhcp.vm.network "private_network",
                     ip: "192.168.10.1",
-                    virtualbox__intnet: "intnet1"
+                    virtualbox__intnet: "intnet1" #Este es el primer grupo de red
     
     dhcp.vm.network "private_network",
                     ip: "192.168.20.1",
-                    virtualbox__intnet: "intnet2"
+                    virtualbox__intnet: "intnet2" #Este es el segundo grupo de red
     
     dhcp.vm.provision "install", type: "shell",
                       inline: <<-SHELL
@@ -32,8 +32,8 @@ Vagrant.configure("2") do |config|
                       SHELL
 
     dhcp.vm.provision "config", type: "shell", inline: <<-SHELL
-        cp -v  /vagrant/dhcpd.conf /etc/dhcp/
-        cp -v /vagrant/isc-dhcp-server /etc/default/
+        cp -v  /vagrant/dhcpd.conf /etc/dhcp/ #Copiamos a dentro del sistema el archivo de configuración
+        cp -v /vagrant/isc-dhcp-server /etc/default/ #Guardamos el archivo de configuración del servidor DHCP
         systemctl restart isc-dhcp-server
         
     SHELL
@@ -110,6 +110,6 @@ Vagrant.configure("2") do |config|
                   type: "dhcp",
                   virtualbox__intnet: "intnet2",
                   ip: "192.168.20.102",
-                  mac: "001AA0E906CF"
+                  mac: "001AA0E906CF" #Ponemos las MAC que se nos da en el pdf de la practica
   end
 end
